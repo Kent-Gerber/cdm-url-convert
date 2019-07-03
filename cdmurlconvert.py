@@ -24,6 +24,7 @@ cdmpath = o.path
 newscheme = "".join([cdmscheme,'s'])
 
 # content.clic.edu doesn't have certificate so replace it if present
+# to use for other hosted site subsitute these variables ([your alias], [cdm hosted url])
 newcdmnetloc = cdmnetloc.replace('content.clic.edu', 'cdm16120.contentdm.oclc.org')
 
 #convert old path to responsive one - replace cdm with digital and remove landingpage

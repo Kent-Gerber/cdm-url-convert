@@ -1,12 +1,14 @@
 ''' This script will take an old CONTENTdm url from a 6.x hosted site and
 convert it to the responsive version. It works for collections, searches,
 and references to single items.
+written June 2019 by Kent Gerber
 '''
-# written June 2019 by Kent Gerber
 
 from urllib.parse import urlparse
-#import pyperclip - doesn't work will need to troubleshoot
 #pulls in package that breaks a url in logical parts of a list
+
+#import pyperclip - doesn't work will need to troubleshoot
+
 print('Enter old CONTENTdm url:')
 cdmurl = input()
 o = urlparse(cdmurl)
@@ -21,6 +23,9 @@ cdmpath = o.path
 #convert http to https and store in new variable
 newscheme = "".join([cdmscheme,'s'])
 
+# content.clic.edu doesn't have certificate so replace it if present
+newcdmnetloc = cdmnetloc.replace('content.clic.edu', 'cdm16120.contentdm.oclc.org')
+
 #convert old path to responsive one - replace cdm with digital and remove landingpage
 pathlist = cdmpath.split('/')
 
@@ -28,11 +33,16 @@ pathlist = cdmpath.split('/')
 newpathlist = [word.replace('cdm', 'digital') for word in pathlist]
 #should result in ['', 'digital', 'landingpage', 'collection', 'p15186coll6']
 
-#remove any parts of the old url that no longer work
+#remove deprecated, no longer used, parts of the old url
 if 'landingpage' in newpathlist:
     newpathlist.remove('landingpage')
+#deprecated from links to specific items
 if 'ref' in newpathlist:
     newpathlist.remove('ref')
+if 'singleitem' in newpathlist:
+    newpathlist.remove('singleitem')
+
+#reposition search in the url    
 if 'search' in newpathlist:
     newpathlist.remove('search')
     newpathlist.insert(4, 'search')
@@ -41,7 +51,7 @@ if 'search' in newpathlist:
 newpath = '/'.join(newpathlist)
 
 #put new url into a variable - newcdmurl
-newcdmurl = newscheme + '://' + cdmnetloc + newpath
+newcdmurl = newscheme + '://' + newcdmnetloc + newpath
 
 #produce new repsonsive url using concatenation
 print('Your new CONTENTdm responsive url is:')

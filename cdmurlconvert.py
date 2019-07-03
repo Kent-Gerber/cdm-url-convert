@@ -42,6 +42,8 @@ if 'ref' in newpathlist:
     newpathlist.remove('ref')
 if 'singleitem' in newpathlist:
     newpathlist.remove('singleitem')
+if 'compoundobject' in newpathlist:
+    newpathlist.remove('compoundobject')
 
 #reposition search in the url    
 if 'search' in newpathlist:
